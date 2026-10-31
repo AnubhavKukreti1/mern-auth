@@ -13,7 +13,10 @@ const port = process.env.PORT || 4000;
 // CORS must run before your routes
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://mern-auth-six-sand.vercel.app"
+    ],
     credentials: true,
   })
 );
