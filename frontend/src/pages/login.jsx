@@ -38,33 +38,63 @@ function Login() {
     setMessage("");
 
     try {
-      const { data } = await api.post("/api/auth/login", {
-        email: formData.email.trim(),
-        password: formData.password,
-      });
+      // Login request
+      const { data } = await api.post(
+        "/api/auth/login",
+        {
+          email: formData.email.trim(),
+          password: formData.password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       setMessageType("success");
       setMessage(data.message || "Login successful!");
 
-      // Fetch user profile data so context is populated immediately
+      // Fetch user data after login
       try {
-        const userResponse = await api.get("/api/auth/getuserdata");
+        const userResponse = await api.get(
+          "/api/auth/getuserdata",
+          {
+            withCredentials: true,
+          }
+        );
+
         setUserData(userResponse.data);
+
       } catch (err) {
-        console.error("Failed to fetch user data after login", err);
+        console.error(
+          "Failed to fetch user data after login:",
+          err.response?.data || err.message
+        );
+
+        setMessageType("error");
+        setMessage(
+          err.response?.data?.message ||
+          "Login successful, but unable to fetch user data."
+        );
+
+        return;
       }
 
-      // Navigate to the homepage correctly
+      // Navigate after successful authentication
       navigate("/home");
 
     } catch (error) {
-      console.error("Login error:", error);
+      console.error(
+        "Login error:",
+        error.response?.data || error.message
+      );
 
       setMessage(
         error.response?.data?.message ||
-          "Unable to connect to the server. Please try again."
+        "Unable to connect to the server. Please try again."
       );
+
       setMessageType("error");
+
     } finally {
       setLoading(false);
     }
