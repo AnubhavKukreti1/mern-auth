@@ -13,6 +13,7 @@ JWT, and Cloudinary values for your environment.
 
 For Render, use `backend` as the service root directory and `npm start` as the
 start command. Configure `NODE_ENV=production`,
-`PRODUCTION_FRONTEND_URL=https://mern-auth-six-sand.vercel.app`, and the
-required backend secrets in the Render environment. Change the frontend URL
-there if the frontend is deployed at a different origin.
+`PRODUCTION_FRONTEND_URL=https://mern-auth-pqchqu1sr-anubhav-kukreti-s-projects.vercel.app`,
+and the required backend secrets in the Render environment. The backend also
+allows Vercel preview URLs matching this project's
+`mern-auth-*-anubhav-kukreti-s-projects.vercel.app` hostname pattern.

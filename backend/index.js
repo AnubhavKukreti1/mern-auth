@@ -14,18 +14,21 @@ const allowedOrigins = [
   "http://localhost:5173",
   process.env.PRODUCTION_FRONTEND_URL,
 ].filter(Boolean);
+const vercelPreviewOrigin =
+  /^https:\/\/mern-auth-[a-z0-9-]+-anubhav-kukreti-s-projects\.vercel\.app$/i;
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("Not allowed by CORS"));
+    const isAllowed =
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      vercelPreviewOrigin.test(origin);
+    return callback(null, isAllowed);
   },
   credentials: true,
 };
 
+app.options(/.*/, cors(corsOptions));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
