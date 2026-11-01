@@ -1,4 +1,4 @@
-**🚀 MERN Auth | Full-Stack Authentication Platform **
+**🚀 MERN Auth | Full-Stack Authentication Platform**
 
 <div align="center">
 
