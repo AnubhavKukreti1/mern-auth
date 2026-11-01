@@ -6,30 +6,30 @@ import connectDB from "./config/db.js";
 import authRouter from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import dotenv from "dotenv";
-
-
-dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8000;
 
-// CORS must run before your routes
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://mern-auth-six-sand.vercel.app"
-    ],
-    credentials: true,
-  })
-);
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.PRODUCTION_FRONTEND_URL,
+].filter(Boolean);
 
-// Middleware
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// Routes
 app.use("/api/auth", authRouter);
 
 const startServer = async () => {
