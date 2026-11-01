@@ -12,6 +12,11 @@ function UserContext({ children }) {
       const response = await api.get("/api/auth/getuserdata");
       setUserData(response.data);
     } catch (error) {
+      if (error.response?.status === 401) {
+        setUserData(null);
+        return;
+      }
+
       console.error("Failed to fetch user data:", error);
     }
   };
