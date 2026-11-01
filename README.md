@@ -139,44 +139,44 @@ flowchart TB
     style CLOUD fill:#312e81,stroke:#818cf8,color:#fff
 
 📂 Project Structure
-text
+```text
 mern-auth/
 │
-├── 📁 backend/
-│   ├── 📁 config/
-│   ├── 📁 controllers/
-│   ├── 📁 middleware/
-│   ├── 📁 models/
-│   ├── 📁 routes/
-│   ├── 📁 utils/
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── utils/
 │   │
-│   ├── 📄 .env.example
-│   ├── 📄 package.json
-│   └── 📄 server.js
+│   ├── .env.example
+│   ├── package.json
+│   └── server.js
 │
-├── 📁 frontend/
-│   ├── 📁 public/
-│   ├── 📁 src/
-│   │   ├── 📁 assets/
-│   │   ├── 📁 components/
-│   │   ├── 📁 context/
-│   │   ├── 📁 pages/
-│   │   ├── 📁 services/
-│   │   ├── 📄 App.jsx
-│   │   └── 📄 main.jsx
+├── frontend/
+│   ├── public/
 │   │
-│   ├── 📄 .env.development
-│   ├── 📄 .env.production
-│   ├── 📄 index.html
-│   └── 📄 package.json
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   ├── .env.development
+│   ├── .env.production
+│   ├── index.html
+│   └── package.json
 │
-└── 📄 README.md
+└── README.md
+ ```
 
-
-Note: Update this illustrative tree to reflect the exact files and folders in your repository.
 
 🔄 Authentication Workflow
-mermaid
+```mermaid
 flowchart TD
     A(["👤 User"]) --> B["Open Application"]
     B --> C{"Authenticated?"}
@@ -201,6 +201,7 @@ flowchart TD
 
     style N fill:#065f46,stroke:#34d399,color:#fff
     style O fill:#7f1d1d,stroke:#f87171,color:#fff
+```
 
 ⚙️ Getting Started
 
@@ -439,6 +440,6 @@ Building secure and scalable web experiences.
 
 ⭐ If you found this project useful, consider giving it a star!
 
-Made with ❤️ by Anubhav Kukreti
+**Author -- Anubhav Kukreti**
 
 </div>
