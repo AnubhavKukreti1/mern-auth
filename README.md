@@ -330,7 +330,7 @@ Use strong, unique production secrets.
 
 MERN Auth follows a client-server architecture with independent frontend and backend services.
 
-mermaid
+ ```mermaid
 flowchart TB
     USER(["👤 User"])
 
@@ -368,44 +368,8 @@ flowchart TB
     style AUTH fill:#713f12,stroke:#facc15,color:#fff
     style DB fill:#14532d,stroke:#4ade80,color:#fff
     style CLOUD fill:#312e81,stroke:#818cf8,color:#fff
+ ```
 
-🔄 Authentication Workflow
-
-The authentication process uses JWT tokens stored in HTTP-only cookies.
-
-mermaid
-flowchart TD
-    A(["👤 User Visits Application"]) --> B{"Authenticated?"}
-
-    B -->|No| C["Login / Register"]
-    B -->|Yes| D["Protected Dashboard"]
-
-    C --> E["Submit Credentials"]
-    E --> F["React Frontend"]
-    F --> G["Express Authentication API"]
-
-    G --> H["Validate User Credentials"]
-    H --> I{"Credentials Valid?"}
-
-    I -->|No| J(["❌ Authentication Failed"])
-    I -->|Yes| K["Generate JWT"]
-
-    K --> L["Set HTTP-only Cookie"]
-    L --> M(["✅ Authentication Successful"])
-
-    M --> D
-
-    D --> N["Request Protected Resource"]
-    N --> O["Authentication Middleware"]
-    O --> P{"JWT Valid?"}
-
-    P -->|Yes| Q(["✅ Grant Access"])
-    P -->|No| R(["❌ Reject Request"])
-
-    style M fill:#065f46,stroke:#34d399,color:#fff
-    style Q fill:#065f46,stroke:#34d399,color:#fff
-    style J fill:#7f1d1d,stroke:#f87171,color:#fff
-    style R fill:#7f1d1d,stroke:#f87171,color:#fff
 
 🔐 How Authentication Works
 The user submits login or registration credentials.
@@ -420,7 +384,7 @@ Authentication middleware verifies the token before granting access.
 MERN Auth uses a split deployment architecture, where the frontend and backend are hosted independently.
 
 🚀 Deployment Architecture
-mermaid
+ ``` mermaid
 flowchart TB
     USER(["🌐 End User"])
 
@@ -453,6 +417,7 @@ flowchart TB
     style AUTH fill:#713f12,stroke:#facc15,color:#fff
     style DATABASE fill:#14532d,stroke:#4ade80,color:#fff
     style MEDIA fill:#312e81,stroke:#818cf8,color:#fff
+ ```
 
 ⚛️ Frontend Deployment — Vercel
 
