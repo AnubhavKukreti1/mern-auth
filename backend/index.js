@@ -6,6 +6,10 @@ import connectDB from "./config/db.js";
 import authRouter from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 4000;
