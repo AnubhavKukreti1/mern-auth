@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { dataContext } from "../context/userContext";
+import api from "../api";
 
 function SignUp() {
-  const { serverUrl, setUserData } = useContext(dataContext);
+  const { setUserData } = useContext(dataContext);
   const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
@@ -86,9 +86,7 @@ function SignUp() {
 
   const handleNavigateHome = async () => {
     try {
-      const response = await axios.get(`${serverUrl}/api/auth/getuserdata`, {
-        withCredentials: true,
-      });
+      const response = await api.get("/api/auth/getuserdata");
       if (response.data) {
         setUserData(response.data);
       }
@@ -131,16 +129,12 @@ function SignUp() {
         data.append("profileImage", formData.profileImage);
       }
 
-      const response = await axios.post(
-        `${serverUrl}/api/auth/signup`,
-        data,
-        {
-          timeout: 10000, // 10-second request timeout protection
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.post("/api/auth/signup", data, {
+        timeout: 10000, // 10-second request timeout protection
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       setMessageType("success");
       setMessage(

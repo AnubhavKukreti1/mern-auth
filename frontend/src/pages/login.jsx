@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { dataContext } from "../context/userContext";
+import api from "../api";
 
 function Login() {
   const navigate = useNavigate();
-  const { setUserData, serverUrl } = useContext(dataContext);
+  const { setUserData } = useContext(dataContext);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -38,34 +38,17 @@ function Login() {
     setMessage("");
 
     try {
-      const response = await fetch(`${serverUrl}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          email: formData.email.trim(),
-          password: formData.password,
-        }),
+      const { data } = await api.post("/api/auth/login", {
+        email: formData.email.trim(),
+        password: formData.password,
       });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        setMessage(data.message || "Login failed. Please try again.");
-        setMessageType("error");
-        return;
-      }
 
       setMessageType("success");
       setMessage(data.message || "Login successful!");
 
       // Fetch user profile data so context is populated immediately
       try {
-        const userResponse = await axios.get(`${serverUrl}/api/auth/getuserdata`, {
-          withCredentials: true,
-        });
+        const userResponse = await api.get("/api/auth/getuserdata");
         setUserData(userResponse.data);
       } catch (err) {
         console.error("Failed to fetch user data after login", err);
@@ -78,7 +61,8 @@ function Login() {
       console.error("Login error:", error);
 
       setMessage(
-        "Unable to connect to the server. Please try again."
+        error.response?.data?.message ||
+          "Unable to connect to the server. Please try again."
       );
       setMessageType("error");
     } finally {

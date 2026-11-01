@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { dataContext } from '../context/userContext';
+import api from "../api";
 
 const Home = () => {
-  const { userData, setUserData, serverUrl } = useContext(dataContext);
+  const { userData, setUserData } = useContext(dataContext);
   const navigate = useNavigate();
 
   // Handle Logout
   const handleLogout = async () => {
     try {
-      await axios.post(`${serverUrl}/api/auth/logout`, {}, { withCredentials: true });
+      await api.post("/api/auth/logout", {});
       setUserData(null); // Clear context data
       navigate('/login');   // Redirect to login page
     } catch (error) {
