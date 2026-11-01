@@ -116,7 +116,7 @@ Tools & Deployment
 
 The application follows a client-server architecture with a dedicated frontend, backend API and database.
 
-mermaid
+```mermaid
 flowchart TB
     U(["👤 User"])
     FE["⚛️ React + Vite Frontend"]
@@ -137,6 +137,7 @@ flowchart TB
     style AUTH fill:#713f12,stroke:#facc15,color:#fff
     style DB fill:#14532d,stroke:#4ade80,color:#fff
     style CLOUD fill:#312e81,stroke:#818cf8,color:#fff
+```
 
 📂 Project Structure
 ```text
