@@ -1,4 +1,5 @@
 import generateToken from "../config/token.js";
+import { authCookieOptions } from "../config/authCookie.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
@@ -13,14 +14,16 @@ export const login = async (req, res) => {
 
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    if (!email?.trim() || !password) {
       return res.status(400).json({
         message: "Email and password are required",
       });
     }
 
     // 2. Find user and retrieve password hash
-    const user = await User.findOne({ email }).select("+password");
+    const user = await User.findOne({
+      email: email.trim().toLowerCase(),
+    }).select("+password");
 
     if (!user) {
       return res.status(401).json({
@@ -51,11 +54,8 @@ export const login = async (req, res) => {
 
     // 6. Set HTTP-only cookie
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      ...authCookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: "/",
     });
 
     // 7. Return user details without password
