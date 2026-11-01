@@ -1,5 +1,19 @@
 # mern-auth
 
+## Application Preview
+
+### Login Experience
+
+<img src="./screenshots/login.png" width="90%" alt="Login page preview" />
+
+### Registration Experience
+
+<img src="./screenshots/registration.png" width="90%" alt="Registration page preview" />
+
+### Dashboard
+
+<img src="./screenshots/dashboard.png" width="90%" alt="Dashboard preview" />
+
 ## Environment configuration
 
 The frontend uses `frontend/.env.development` for local development and
