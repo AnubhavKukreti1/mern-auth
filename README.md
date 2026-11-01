@@ -203,38 +203,45 @@ flowchart TD
     style N fill:#065f46,stroke:#34d399,color:#fff
     style O fill:#7f1d1d,stroke:#f87171,color:#fff
 ```
-
 ⚙️ Getting Started
 
-Follow these steps to run the project locally.
+Get MERN Auth up and running locally by following the installation and configuration steps below.
 
-Prerequisites
+📋 Prerequisites
 
-Make sure you have installed:
+Make sure the following tools and services are available before getting started.
 
-Node.js
-MongoDB
-Git
-A Cloudinary account
-1. Clone the Repository
+Requirement	Description	Link
+Node.js	JavaScript runtime	Download
+MongoDB	NoSQL database	Get Started
+Git	Version control	Download
+Cloudinary	Cloud media management	Sign Up
+1. 📥 Clone the Repository
+
+Clone the project and navigate to its root directory.
+
 bash
 git clone YOUR_GITHUB_REPOSITORY_URL
 
 cd mern-auth
 
-2. Backend Configuration
+2. 🔧 Backend Configuration
+
+Navigate to the backend directory and install the required dependencies.
+
 bash
 cd backend
 npm install
 
+Environment Setup
 
-Create your environment file:
+Create a .env file using the provided example configuration.
 
 bash
 cp .env.example .env
 
 
-Configure backend/.env:
+Configure the following variables in backend/.env:
 
 env
 PORT=8000
@@ -248,56 +255,55 @@ CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
-
-Start the backend:
-
+Start the Backend Server
 bash
 npm run dev
 
 
 <details>
-<summary><b>📌 Backend Information</b></summary>
+<summary><strong>📌 Backend Configuration Details</strong></summary>
 
-Configuration	Value
-Server	Express.js
-Port	8000
+Component	Configuration
+Runtime	Node.js
+Framework	Express.js
+Server Port	8000
 Database	MongoDB
 Authentication	JWT
-Media Service	Cloudinary
+Media Management	Cloudinary
 
 </details>
 
-3. Frontend Configuration
+3. ⚛️ Frontend Configuration
 
-Open a new terminal:
+Open a separate terminal and navigate to the frontend directory.
 
 bash
 cd frontend
 npm install
 
+Environment Setup
 
 Configure frontend/.env.development:
 
 env
 VITE_API_URL=http://localhost:8000
 
-
-Start the frontend:
-
+Start the Frontend Server
 bash
 npm run dev
 
-4. Run Locally
+4. 🌐 Access the Application
 
-<div align="center">
+Once both servers are running, your application will be available at:
 
-Service	Local URL
-⚛️ Frontend	http://localhost:5173
-🚀 Backend	http://localhost:8000
+Service	Local URL	Status
+⚛️ Frontend	localhost:5173	React + Vite
+🚀 Backend	localhost:8000	Express API
+🔑 Environment Configuration
 
-</div>
+MERN Auth uses separate environment configurations for frontend and backend services.
 
-🔑 Environment Variables
+Environment Variables Reference
 Variable	Location	Description
 VITE_API_URL	Frontend	Backend API base URL
 PORT	Backend	Server port
@@ -308,39 +314,186 @@ CLOUDINARY_CLOUD_NAME	Backend	Cloudinary account name
 CLOUDINARY_API_KEY	Backend	Cloudinary API key
 CLOUDINARY_API_SECRET	Backend	Cloudinary API secret
 PRODUCTION_FRONTEND_URL	Backend	Production frontend origin
+Environment Files
+File	Purpose
+frontend/.env.development	Local frontend configuration
+frontend/.env.production	Production frontend configuration
+backend/.env	Backend environment variables
+backend/.env.example	Backend environment template
+🔒 Security Best Practices
+Never commit your actual backend .env file.
+Never expose JWT secrets or database credentials in frontend code.
+Never expose your Cloudinary API secret.
+Remember that Vite variables prefixed with VITE_ are publicly accessible in the browser.
+Use strong, unique production secrets.
+🏗️ Application Architecture
 
-Never expose backend secrets in frontend environment variables or commit your actual backend .env file.
+MERN Auth follows a client-server architecture with independent frontend and backend services.
 
+mermaid
+flowchart TB
+    USER(["👤 User"])
+
+    subgraph FRONTEND["⚛️ Frontend — Vercel / Localhost"]
+        UI["React + Vite"]
+        PAGES["Application Pages"]
+        API_CLIENT["API Client"]
+    end
+
+    subgraph BACKEND["🚀 Backend — Render / Localhost"]
+        API["Express REST API"]
+        AUTH["JWT Authentication"]
+        MIDDLEWARE["Authentication Middleware"]
+        CONTROLLER["Controllers"]
+    end
+
+    subgraph SERVICES["☁️ External Services"]
+        DB[("MongoDB")]
+        CLOUD["Cloudinary"]
+    end
+
+    USER <--> UI
+    UI <--> PAGES
+    PAGES <--> API_CLIENT
+    API_CLIENT <-->|HTTP + Cookies| API
+    API --> AUTH
+    AUTH --> MIDDLEWARE
+    MIDDLEWARE --> CONTROLLER
+    CONTROLLER <--> DB
+    CONTROLLER <--> CLOUD
+
+    style USER fill:#172554,stroke:#38bdf8,color:#fff
+    style UI fill:#312e81,stroke:#818cf8,color:#fff
+    style API fill:#064e3b,stroke:#34d399,color:#fff
+    style AUTH fill:#713f12,stroke:#facc15,color:#fff
+    style DB fill:#14532d,stroke:#4ade80,color:#fff
+    style CLOUD fill:#312e81,stroke:#818cf8,color:#fff
+
+🔄 Authentication Workflow
+
+The authentication process uses JWT tokens stored in HTTP-only cookies.
+
+mermaid
+flowchart TD
+    A(["👤 User Visits Application"]) --> B{"Authenticated?"}
+
+    B -->|No| C["Login / Register"]
+    B -->|Yes| D["Protected Dashboard"]
+
+    C --> E["Submit Credentials"]
+    E --> F["React Frontend"]
+    F --> G["Express Authentication API"]
+
+    G --> H["Validate User Credentials"]
+    H --> I{"Credentials Valid?"}
+
+    I -->|No| J(["❌ Authentication Failed"])
+    I -->|Yes| K["Generate JWT"]
+
+    K --> L["Set HTTP-only Cookie"]
+    L --> M(["✅ Authentication Successful"])
+
+    M --> D
+
+    D --> N["Request Protected Resource"]
+    N --> O["Authentication Middleware"]
+    O --> P{"JWT Valid?"}
+
+    P -->|Yes| Q(["✅ Grant Access"])
+    P -->|No| R(["❌ Reject Request"])
+
+    style M fill:#065f46,stroke:#34d399,color:#fff
+    style Q fill:#065f46,stroke:#34d399,color:#fff
+    style J fill:#7f1d1d,stroke:#f87171,color:#fff
+    style R fill:#7f1d1d,stroke:#f87171,color:#fff
+
+🔐 How Authentication Works
+The user submits login or registration credentials.
+The React frontend sends an API request to Express.
+The backend validates the submitted credentials.
+A JWT is generated after successful authentication.
+The JWT is stored in an HTTP-only cookie.
+Subsequent protected requests include the authentication cookie.
+Authentication middleware verifies the token before granting access.
 🌍 Deployment Guide
 
-The application uses a split deployment architecture.
+MERN Auth uses a split deployment architecture, where the frontend and backend are hosted independently.
 
-<div align="center">
+🚀 Deployment Architecture
+mermaid
+flowchart TB
+    USER(["🌐 End User"])
 
-<img src="https://img.shields.io/badge/Frontend-Vercel-black?style=for-the-badge&logo=vercel"/>
-<img src="https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render&logoColor=black"/>
-<img src="https://img.shields.io/badge/Database-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb"/>
+    subgraph VERCEL["⚛️ Vercel"]
+        FRONTEND["React + Vite Frontend"]
+    end
 
-</div>
+    subgraph RENDER["🚀 Render"]
+        BACKEND["Express.js Backend"]
+        AUTH["JWT + Cookie Authentication"]
+    end
+
+    subgraph MONGODB["🍃 MongoDB Atlas"]
+        DATABASE[("Application Database")]
+    end
+
+    subgraph CLOUDINARY["☁️ Cloudinary"]
+        MEDIA["Media Storage"]
+    end
+
+    USER <-->|HTTPS| FRONTEND
+    FRONTEND <-->|API Requests + Credentials| BACKEND
+    BACKEND <--> AUTH
+    AUTH <--> DATABASE
+    BACKEND <--> MEDIA
+
+    style USER fill:#172554,stroke:#38bdf8,color:#fff
+    style FRONTEND fill:#312e81,stroke:#818cf8,color:#fff
+    style BACKEND fill:#064e3b,stroke:#34d399,color:#fff
+    style AUTH fill:#713f12,stroke:#facc15,color:#fff
+    style DATABASE fill:#14532d,stroke:#4ade80,color:#fff
+    style MEDIA fill:#312e81,stroke:#818cf8,color:#fff
 
 ⚛️ Frontend Deployment — Vercel
-Import your GitHub repository into Vercel.
-Set the root directory to frontend.
-Add the following environment variable:
+
+Deploy the React frontend using Vercel.
+
+Deployment Steps
+Push your project to GitHub.
+Open Vercel.
+Import your GitHub repository.
+Configure the frontend root directory.
+Setting	Value
+Root Directory	frontend
+Framework	Vite
+Build Command	npm run build
+Output Directory	dist
+Production Environment Variable
+
+Add the following variable in Vercel:
+
 env
 VITE_API_URL=YOUR_RENDER_BACKEND_URL
 
-Deploy the frontend.
+Deploy your application.
 🚀 Backend Deployment — Render
+
+Deploy the Express backend using Render.
+
+Deployment Steps
+Open Render.
 Create a new Web Service.
 Connect your GitHub repository.
-Set the following configuration:
-Setting	Configuration
+Configure the backend service.
+Setting	Value
 Root Directory	backend
+Runtime	Node.js
 Build Command	npm install
 Start Command	npm start
-Environment	Node.js
-Add your backend environment variables:
+Production Environment Variables
+
+Configure the following variables in Render:
+
 env
 NODE_ENV=production
 
@@ -353,29 +506,37 @@ CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
-Deploy the backend.
-🍪 Production Cookie Security
+Click Deploy Web Service.
+🍪 Production Cookie Configuration
 
-For cross-origin authentication between Vercel and Render, production JWT cookies use:
+The application supports cross-origin authentication between the Vercel frontend and Render backend.
 
-Cookie Attribute	Value
-HttpOnly	true
-SameSite	None
-Secure	true
+The production JWT cookie configuration uses:
 
-The backend also supports matching Vercel preview URLs under this project's hostname pattern.
+Cookie Attribute	Value	Purpose
+HttpOnly	true	Prevents JavaScript access to the cookie
+SameSite	None	Allows cross-site cookie requests
+Secure	true	Ensures cookies are sent over HTTPS
+Important Deployment Considerations
+Configure backend CORS to allow the production frontend origin.
+Enable credential support in the CORS configuration.
+Include credentials in frontend API requests.
+Ensure the frontend uses the correct Render backend URL.
+Keep all backend credentials private.
 
-Important: Configure CORS with the allowed frontend origins and credentials. Frontend API requests must also include credentials for cookie-based authentication.
+The backend also allows matching Vercel preview URLs under this project's hostname pattern.
 
 📡 API Reference
 
-The following is an illustrative authentication API table. Verify the actual route names and request formats in your backend before publishing.
+The following table illustrates the authentication API structure. Confirm the actual endpoints in your backend before publishing.
 
 Method	Endpoint	Description
-POST	/api/auth/register	Register a user
+POST	/api/auth/register	Register a new user
 POST	/api/auth/login	Authenticate a user
-POST	/api/auth/logout	Logout a user
-GET	/api/auth/user	Retrieve authenticated user
+POST	/api/auth/logout	Logout the authenticated user
+GET	/api/auth/user	Retrieve authenticated user details
+
+
 📸 Application Preview
 
 <div align="center">
