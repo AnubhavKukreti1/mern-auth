@@ -1,5 +1,3 @@
-**🚀 MERN Auth | Full-Stack Authentication Platform**
-
 <div align="center">
 
 <img src="https://readme-typing-svg.herokuapp.com?font=JetBrains+Mono&weight=700&size=32&duration=3000&pause=800&color=38BDF8&center=true&vCenter=true&width=850&height=70&lines=Welcome+to+MERN+Auth+%F0%9F%91%8B;Secure+Authentication+Platform;Built+with+MongoDB+%7C+Express+%7C+React;Designed+for+Security+%26+Scalability" alt="Animated MERN Auth Banner" />
